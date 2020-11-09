@@ -9,10 +9,10 @@ public static void main(String[] args) {
 		System.out.println("Serveur lancé!");
 		int id=0;	
 		while(true) {
-		Socket client1 = ecoute.accept();
-		Socket client2 = ecoute.accept();
-		new ThreadChat(id,client1,client2).start();
-		id++;
+			Socket client1 = ecoute.accept();
+			Socket client2 = ecoute.accept();
+			new ThreadChat(id,client1,client2).start();
+			id++;
 		}
 		} catch(Exception e) {
 		// Traitement d'erreur

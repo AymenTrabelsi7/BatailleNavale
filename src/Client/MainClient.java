@@ -9,7 +9,7 @@ public class MainClient {
 				Socket s = new Socket("127.0.0.1", 1500);
 				PrintWriter out = new PrintWriter(s.getOutputStream(), true);
 				new ListeningThread(s).start();
-				System.out.println("Connexion rï¿½ussie!");
+				System.out.println("Connexion réussie!");
 				Scanner sc=new Scanner(System.in);
 				String message="";
 				while (message!="quit") {
