@@ -34,15 +34,37 @@ public class Tableau {
 			return sortie;
 		}
 		
-		public int convert(char a) {
+		public int[] convert(String coord) {
+			int[] s = new int[2];
 			for(int i = 0;i<10;i++) {
-				if (conv[i]== a) return i;
+				if (conv[i]== coord.charAt(0)) s[0] = i;
 			}
-			return 0;
+			s[1] = Character.getNumericValue(coord.charAt(1));
+			return s;
 		}
 		
 		public void ajouter(String coord) {
-			tab[convert(coord.charAt(0))][(int)coord.charAt(1)] = 1;
+			int[] coordonnes =convert(coord); 
+			tab[coordonnes[0]][coordonnes[1]] = 1;
 		}
+		
+		
+		public void supprimer(String coord) {
+			int[] coordonnes =convert(coord); 
+			tab[coordonnes[0]][coordonnes[1]] = 0;
+		}
+		
+		public int attaque(String coord) {
+			int[] coordonnes =convert(coord); 
+			if (tab[coordonnes[0]][coordonnes[1]] == 1) {
+				supprimer(coord);
+				return 1;
+			}
+			
+			else {
+				return 0;
+			}
+		}
+		
 		
 }
