@@ -2,6 +2,7 @@ package Server;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
 public class MainServer {
 public static void main(String[] args) {
 	try {
@@ -11,7 +12,7 @@ public static void main(String[] args) {
 		while(true) {
 			Socket client1 = ecoute.accept();
 			Socket client2 = ecoute.accept();
-			new ThreadChat(id,client1,client2).start();
+			new ThreadBataille(id,client1,client2).start();
 			id++;
 		}
 		} catch(Exception e) {

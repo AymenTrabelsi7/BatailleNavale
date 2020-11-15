@@ -1,8 +1,13 @@
 package BatailleNavale;
 
+import java.util.Vector;
+
 public class Tableau {
-		private char[] conv= {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+		public static char[] conv= {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
 		private int[][] tab;
+		private Vector<Bateau> bateaux;
+		private int nbBateaux;
+		
 		
 		public Tableau() {
 			tab = new int[10][10];
@@ -11,10 +16,14 @@ public class Tableau {
 					tab[i][j] = 0;
 				}
 			}
+			bateaux.setSize(0);
+			nbBateaux = 0;
 		}
 		
 		
-		public String afficher() {
+		
+		
+		public String toString() {
 			String sortie = " ";
 			
 			
@@ -46,67 +55,69 @@ public class Tableau {
 			return sortie;
 		}
 
+		
+		
 
-		public int[] convert(String coord) {
-			int[] s = new int[2];
-			for(int i = 0;i<10;i++) {
-				if (conv[i]== coord.charAt(0)) s[0] = i;
-			}
-			s[1] = Character.getNumericValue(coord.charAt(1));
-			return s;
-		}
 		
-		public void ajouter(String coord) {
-			int[] coordonnes = convert(coord); 
-			tab[coordonnes[0]][coordonnes[1]] = 1;
+		public int[][] getTab() {
+			return tab;
 		}
+
+
+		public int getNbBateaux() {
+			return nbBateaux;
+		}
+
+
+		public Vector<Bateau> getBateaux() {
+			return bateaux;
+		}
+
 		
-		public void ajouterBrut (int[] coord) {
+
+
+
+		void ajouter (int[] coord) {
 			tab[coord[0]][coord[1]] = 1;
 		}
 		
 		
-		public void supprimer(String coord) {
-			int[] coordonnes =convert(coord); 
-			tab[coordonnes[0]][coordonnes[1]] = 0;
+		void supprimer(int[] coord) {
+			tab[coord[0]][coord[1]] = 0;
 		}
 		
-		public int attaque(String coord) {
-			int[] coordonnes =convert(coord); 
-			if (tab[coordonnes[0]][coordonnes[1]] == 1) {
-				supprimer(coord);
-				return 1;
-			}
-			
-			else {
-				return 0;
-			}
+
+		
+		public boolean pointOccupe(int[] coord) {
+			if (tab[coord[0]][coord[1]] == 1) return true;
+			else return false;
+		}
+
+		
+		
+		public boolean perdu() {
+			if(bateaux.size() == 0) return true;
+			else return false;
 		}
 		
+		public void addBateau(String type, int[] coord1, int[] coord2) {
+			bateaux.add(new Bateau(type,coord1,coord2));
+			nbBateaux++;
+		}
 		
-		public void ajouterVehicule(String coord1,String coord2) {
-			int[] a1 = convert(coord1);
-			int[] a2 = convert(coord2);
-			int[] remplissage = {0,0};
-			boolean remplissage_fini = false;
-			int k = 0;
-			while(!remplissage_fini) {
-				if(a1[0] == a2[0] && a1[1] != a2[1]) {
-					remplissage[0] = a1[0];
-					remplissage[1] = a1[1] + k;
-					ajouterBrut(remplissage);
-					k++;
-					if (a1[1] + k > a2[1]) remplissage_fini = true;
-				}
-				
-				else if (a1[0] != a2[0] && a1[1] == a2[1]) {
-					remplissage[1] = a1[1];
-					remplissage[0] = a1[0] + k;
-					ajouterBrut(remplissage);
-					k++;
-					if (a1[0] + k > a2[0]) remplissage_fini = true;
+		public Bateau getBateauTouche() {
+			for(int i = 0;i<bateaux.size();i++) {
+				if(bateaux.get(i).touche(tab)) {
+					Bateau s = bateaux.get(i);
+					if(bateaux.get(i).getNbCasesRestantes()==0) bateaux.remove(i);
+					return s;
 				}
 			}
+			return null;
 		}
 		
+		
+		
+		
+	
 }
