@@ -93,6 +93,11 @@ public class ThreadBataille extends Thread {
 					//Partie
 					while(!partie.getJoueur1().perdu() && !partie.getJoueur2().perdu()) {
 						
+						ecrire("C'est au joueur 1 de commencer !");
+						out1.println("Entrer un point de frappe : ");
+						fluxJ1 = in1.readLine();
+						partie.attaque(partie.getJoueur2(), convert(fluxJ1));
+						
 					}
 					
 					
