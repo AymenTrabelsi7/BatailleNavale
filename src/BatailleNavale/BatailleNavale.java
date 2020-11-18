@@ -36,9 +36,6 @@ public class BatailleNavale {
 		this.joueur2 = joueur2;
 	}
 
-
-	public void test(){
-	}
 	
 	
 
@@ -49,31 +46,35 @@ public class BatailleNavale {
 		int[] remplissage = {0,0};
 		boolean remplissage_fini = false;
 		int k = 0;
-		
+		int ecart = 0;
 		
 		while(!remplissage_fini) {
 			
 			if(coord1[0] == coord2[0] && coord1[1] != coord2[1]) {
-				
+			
+				ecart = coord2[1] - coord1[1];
 				remplissage[0] = coord1[0];
-				remplissage[1] = coord1[1] + k;
-				tab.ajouter(remplissage);
-				k++;
 				
-				if (coord1[1] + k > coord2[1]) remplissage_fini = true;
-				
+				if (ecart<0) remplissage[1] = coord1[1] - k;
+				else remplissage[1] = coord1[1] + k;
+
 			}
 			
 			else if (coord1[0] != coord2[0] && coord1[1] == coord2[1]) {
 				
+				ecart = coord2[0] - coord1[0];
 				remplissage[1] = coord1[1];
-				remplissage[0] = coord1[0] + k;
-				tab.ajouter(remplissage);
-				k++;
 				
-				if (coord1[0] + k > coord2[0]) remplissage_fini = true;
+				
+				if (ecart<0) remplissage[0] = coord1[0] - k;
+				else remplissage[0] = coord1[0] + k;
+
 				
 			}
+			
+			if (k >= Math.abs(ecart)) remplissage_fini = true;
+			tab.ajouter(remplissage);
+			k++;
 		}
 		
 		tab.addBateau(type, coord1, coord2);

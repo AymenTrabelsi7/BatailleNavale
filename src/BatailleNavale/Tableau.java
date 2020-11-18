@@ -1,9 +1,13 @@
 package BatailleNavale;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.Vector;
 
 public class Tableau {
-		public static char[] conv= {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+		public static HashMap<Integer,Character> conv= new HashMap<Integer,Character>();
 		private int[][] tab;
 		private Vector<Bateau> bateaux;
 		private int nbBateaux;
@@ -16,8 +20,18 @@ public class Tableau {
 					tab[i][j] = 0;
 				}
 			}
-			bateaux.setSize(0);
+			bateaux = new Vector<Bateau>(0);
 			nbBateaux = 0;
+			conv.put(0, 'A');
+			conv.put(1, 'B');
+			conv.put(2, 'C');
+			conv.put(3, 'D');
+			conv.put(4, 'E');
+			conv.put(5, 'F');
+			conv.put(6, 'G');
+			conv.put(7, 'H');
+			conv.put(8, 'I');
+			conv.put(9, 'J');
 		}
 		
 		
@@ -25,8 +39,6 @@ public class Tableau {
 		
 		public String toString() {
 			String sortie = " ";
-			
-			
 			for(int i = 1;i<11;i++) {
 				sortie += " " + (i);
 			}
@@ -38,7 +50,7 @@ public class Tableau {
 				for(int j = 0; j<10;j++) {
 					sortie += "--";
 				}
-				sortie += "-\n" + conv[i];
+				sortie += "-\n" + conv.get(i);
 				for(int j = 0; j<10;j++) {
 					sortie += "|" + tab[i][j];
 				}

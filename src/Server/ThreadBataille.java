@@ -32,12 +32,14 @@ public class ThreadBataille extends Thread {
 			in2 = new BufferedReader(new InputStreamReader(client2.getInputStream()));
 			out2 = new PrintWriter(client2.getOutputStream(), true);
 			ecrire("Id de la partie="+idpartie+"\n");
+			out1.println("Joueur 1");
+			out2.println("Joueur 2");
 			partie = new BatailleNavale();
 			veutJouer = true;
 			
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 	
@@ -45,9 +47,10 @@ public class ThreadBataille extends Thread {
 	public int[] convert(String coord) {
 		int[] s = new int[2];
 		for(int i = 0;i<10;i++) {
-			if (Tableau.conv[i]== coord.charAt(0)) s[0] = i;
+			if (Tableau.conv.get(i) == coord.charAt(0)) s[0] = i;
 		}
-		s[1] = Character.getNumericValue(coord.charAt(1));
+		if(coord.length() == 3) s[1] = 9;
+		else s[1] = Character.getNumericValue(coord.charAt(1))-1;
 		return s;
 	}
 	
@@ -57,6 +60,7 @@ public class ThreadBataille extends Thread {
 	
 	public void run() {
 		try {
+			veutJouer = true;
 			while (true) {
 				
 				//Initialisation
@@ -72,8 +76,9 @@ public class ThreadBataille extends Thread {
 					
 					for(int i = 0;i<Bateau.typesBateaux.length;i++) {		
 						
-						for(int j = 0;i<2;i++) {						
-							ecrire("Emplacement du " + Bateau.typesBateaux[i][0] + "(Point " + j + ") : ");
+						for(int j = 0;j<2;j++) {						
+							int jinc = j+1;
+							ecrire("Emplacement du " + Bateau.typesBateaux[i][0] + " ( Point " + jinc + " ) ( Longueur : " + Bateau.typesBateaux[i][1] + " ) : ");
 							fluxJ1=in1.readLine();
 							fluxJ2=in2.readLine();
 							J1[j] = convert(fluxJ1);
@@ -97,7 +102,7 @@ public class ThreadBataille extends Thread {
 						out1.println("Entrer un point de frappe : ");
 						fluxJ1 = in1.readLine();
 						partie.attaque(partie.getJoueur2(), convert(fluxJ1));
-						
+						//CONTINUER ICI
 					}
 					
 					
@@ -122,7 +127,7 @@ public class ThreadBataille extends Thread {
 			}
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 }

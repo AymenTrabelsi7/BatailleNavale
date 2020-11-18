@@ -16,7 +16,7 @@ public static void main(String[] args) {
 			id++;
 		}
 		} catch(Exception e) {
-		// Traitement d'erreur
+		
 		}
 
 }
