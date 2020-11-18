@@ -63,7 +63,7 @@ public class ThreadBataille extends Thread {
 			veutJouer = true;
 			while (true) {
 				
-				//Initialisation - Création des bateaux, etc...
+				//Initialisation - Création des bateaux, etc.
 				
 				int[][] J1 = new int[2][2];
 				int[][] J2 = new int[2][2];
