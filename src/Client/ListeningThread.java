@@ -22,7 +22,4 @@ public class ListeningThread extends Thread {
 			// TODO: handle exception
 		}
 	}
-	
-	
-	
 }

@@ -1,13 +1,11 @@
 package BatailleNavale;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.Vector;
 
 public class Tableau {
-		public static HashMap<Integer,Character> conv= new HashMap<Integer,Character>();
+	
+		public static HashMap<Integer,Character> conv = new HashMap<Integer,Character>(0);
 		private int[][] tab;
 		private Vector<Bateau> bateaux;
 		private int nbBateaux;
@@ -22,16 +20,19 @@ public class Tableau {
 			}
 			bateaux = new Vector<Bateau>(0);
 			nbBateaux = 0;
-			conv.put(0, 'A');
-			conv.put(1, 'B');
-			conv.put(2, 'C');
-			conv.put(3, 'D');
-			conv.put(4, 'E');
-			conv.put(5, 'F');
-			conv.put(6, 'G');
-			conv.put(7, 'H');
-			conv.put(8, 'I');
-			conv.put(9, 'J');
+			if(conv.size() == 0) {
+				
+				conv.put(0, 'A');
+				conv.put(1, 'B');
+				conv.put(2, 'C');
+				conv.put(3, 'D');
+				conv.put(4, 'E');
+				conv.put(5, 'F');
+				conv.put(6, 'G');
+				conv.put(7, 'H');
+				conv.put(8, 'I');
+				conv.put(9, 'J');
+			}
 		}
 		
 		

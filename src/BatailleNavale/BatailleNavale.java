@@ -11,9 +11,9 @@ public class BatailleNavale {
 	
 	
 	
-	public BatailleNavale() {
-		joueur1 = new Tableau();
-		joueur2 = new Tableau();
+	public BatailleNavale(Tableau joueur1, Tableau joueur2) {
+		this.joueur1 = joueur1;
+		this.joueur2 = joueur2;
 	}
 
 
@@ -82,14 +82,16 @@ public class BatailleNavale {
 	}
 	
 	
-	public boolean attaque(Tableau tab,int[] coord) {
+	public Bateau attaque(Tableau tab,int[] coord) {
 		if (tab.pointOccupe(coord)) {
 			tab.supprimer(coord);
-			return true;
+			Bateau bat = tab.getBateauTouche();
+
+			return bat;
 		}
 		
 		else {
-			return false;
+			return null;
 		}
 	}
 }
