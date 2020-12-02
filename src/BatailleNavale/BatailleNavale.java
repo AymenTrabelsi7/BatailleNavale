@@ -60,7 +60,7 @@ public class BatailleNavale {
 			int axeFixe;
 			int currentAxefixeAdjacente;
 			int[][] tableau = tab.getTab();
-			int bordSuperieurTableau = tableau.length - 1;
+			int BordSuperieurTableau = tableau.length - 1;
 			
 			
 			if(coord1[0] == coord2[0]) {	//Horizontal
@@ -80,11 +80,11 @@ public class BatailleNavale {
 				currentBateau = debutBateau + i;
 				for (int caseAdjacente = -1; caseAdjacente <= 1; caseAdjacente++) {
 					
-					currentAdjacente = currentBateau + caseAdjacente <= bordSuperieurTableau ? 
-							Math.abs(currentBateau + caseAdjacente) : bordSuperieurTableau;
+					currentAdjacente = currentBateau + caseAdjacente <= BordSuperieurTableau ? 
+							Math.abs(currentBateau + caseAdjacente) : BordSuperieurTableau;
 							
-					currentAxefixeAdjacente = axeFixe + caseAdjacente <= bordSuperieurTableau ? 
-							Math.abs(axeFixe + caseAdjacente) : bordSuperieurTableau;
+					currentAxefixeAdjacente = axeFixe + caseAdjacente <= BordSuperieurTableau ? 
+							Math.abs(axeFixe + caseAdjacente) : BordSuperieurTableau;
 							
 					if(tableau[axeFixe][currentAdjacente] == 1 || tableau[currentAxefixeAdjacente][currentBateau] == 1) return false;
 				}
@@ -98,7 +98,7 @@ public class BatailleNavale {
 	}
 	
 	
-	public void ajouterBateau(Tableau tab,String type, int[] coord1, String orientation) {
+	public void ajouterBateau(Tableau tab,String type, int[] coord1, int[] coord2) {
 		
 		int[] remplissage = {0,0};
 		boolean remplissage_fini = false;
@@ -107,9 +107,9 @@ public class BatailleNavale {
 		
 		while(!remplissage_fini) {
 			
-			if(coord1[0] == orientation[0] && coord1[1] != orientation[1]) {
+			if(coord1[0] == coord2[0] && coord1[1] != coord2[1]) {
 			
-				ecart = orientation[1] - coord1[1];
+				ecart = coord2[1] - coord1[1];
 				remplissage[0] = coord1[0];
 				
 				if (ecart<0) remplissage[1] = coord1[1] - k;
@@ -117,9 +117,9 @@ public class BatailleNavale {
 
 			}
 			
-			else if (coord1[0] != orientation[0] && coord1[1] == orientation[1]) {
+			else if (coord1[0] != coord2[0] && coord1[1] == coord2[1]) {
 				
-				ecart = orientation[0] - coord1[0];
+				ecart = coord2[0] - coord1[0];
 				remplissage[1] = coord1[1];
 				
 				
@@ -134,7 +134,7 @@ public class BatailleNavale {
 			k++;
 		}
 		
-		tab.addBateau(type, coord1, orientation);
+		tab.addBateau(type, coord1, coord2);
 		
 	}
 	

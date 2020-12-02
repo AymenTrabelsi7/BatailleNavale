@@ -5,24 +5,20 @@ public class Bateau {
 	
 	private String typeBateau;
 	private int longueurInitiale;
-	private int[] coord1, coord2 = new int[2];
+	private int[] coord1,coord2;
 	private boolean horizontal;
 	private int nbCasesRestantes;
 	
 	public static String[][] typesBateaux = {{"Torpilleur","2"},{"Contre-torpilleur","3"},{"Croiseur","4"},{"Croiseur","4"},{"Porte-avions","5"}};
 
-	public Bateau(String typeBateau, int[] coord1, boolean horizontal) {
+	public Bateau(String typeBateau, int[] coord1, int[] coord2) {
 		this.typeBateau = typeBateau;
 		this.coord1 = coord1;
-		for(String[] bateau : typesBateaux) {
-			if(bateau[0].equals(typeBateau)) this.longueurInitiale = bateau[1];
-		}
-		if(horizontal) {
-			this.coord2[0] = this.coord1[0];
-			this.coord2[1] = this.coord1[1] + this.longueurInitiale;
-		}
+		this.coord2 = coord2;
+		this.longueurInitiale = Math.max(coord1[0]-coord2[0], coord1[1]-coord2[1]);
 		this.nbCasesRestantes = longueurInitiale;
-		this.horizontal = horizontal;
+		if(coord1[0]-coord2[0] == 0) horizontal = true;
+		else horizontal = false;
 	}
 	
 	

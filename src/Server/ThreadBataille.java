@@ -116,9 +116,8 @@ public class ThreadBataille extends Thread {
 				
 				//Initialisation - Création des bateaux, etc.
 				
-				int[][] J1 = new int[1][1];
-				int[][] J2 = new int[1][1];
-				String orientationJ1, orientationJ2 = null;
+				int[][] J1 = new int[2][2];
+				int[][] J2 = new int[2][2];
 				ecrire("Bienvenue dans le jeu de Bataille Navale, veuillez commencer à choisir l'emplacement de vos bateaux");
 				String resultat = null;
 				
@@ -130,23 +129,20 @@ public class ThreadBataille extends Thread {
 					for(int i = 0;i<Bateau.typesBateaux.length;i++) {		
 						
 						do {
-												
-								
-								ecrire("Emplacement de l'arrière du " + Bateau.typesBateaux[i][0] + " ( Longueur : " + Bateau.typesBateaux[i][1] + " ) : ");
-								J1[0] = entrerCoordonnees(in1, out1);
-								J2[0] = entrerCoordonnees(in2, out2);
-								ecrire("Orientation : h/v ?");
-								orientationJ1 = in1.readLine();
-								orientationJ2 = in2.readLine();
-							
+							for(int j = 0;j<2;j++) {						
+								int jinc = j+1;
+								ecrire("Emplacement du " + Bateau.typesBateaux[i][0] + " ( Point " + jinc + " ) ( Longueur : " + Bateau.typesBateaux[i][1] + " ) : ");
+								J1[j] = entrerCoordonnees(in1, out1);
+								J2[j] = entrerCoordonnees(in2, out2);
+							}
 						verifBateauJ1 = partie.verifierBateau(partie.getJoueur1(), J1[0], J1[1], Bateau.typesBateaux[i][0]);
 						verifBateauJ2 = partie.verifierBateau(partie.getJoueur2(), J2[0], J2[1], Bateau.typesBateaux[i][0]);
 							
 						if(!verifBateauJ1 || !verifBateauJ2) ecrire("Un joueur a donné de mauvaises coordonnées. Veuillez réessayer.");
 						} while (!verifBateauJ1 || !verifBateauJ2);
 						
-						partie.ajouterBateau(partie.getJoueur1(), Bateau.typesBateaux[i][0], J1[0], orientationJ1);
-						partie.ajouterBateau(partie.getJoueur2(), Bateau.typesBateaux[i][0], J2[0], orientationJ2);
+						partie.ajouterBateau(partie.getJoueur1(), Bateau.typesBateaux[i][0], J1[0], J1[1]);
+						partie.ajouterBateau(partie.getJoueur2(), Bateau.typesBateaux[i][0], J2[0], J2[1]);
 
 						
 						ecrire("Bateau ajouté ! Votre Tableau : ");
