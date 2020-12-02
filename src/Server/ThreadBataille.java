@@ -48,28 +48,14 @@ public class ThreadBataille extends Thread {
 	
 	public static boolean verifCoord(String coord) {
 		
-		//Autre implémentation plus safe en cas de non fonctionnement de la principale :
-		
-		/*if((coord.length() == 2 || coord.length() == 3)) {
-			if(Tableau.conv.containsValue(coord.charAt(0))) {
-				if(coord.length() == 3) {
-					if(coord.charAt(1) == '1' && coord.charAt(2) == '0') return true;
-					else return false;
-				}
-				else if (Character.isDigit(coord.charAt(1))) return true;
-				else return false;
-			}
+		if((coord.length() == 2 || coord.length() == 3) && 
+			Tableau.conv.containsValue(coord.charAt(0)) ) {
 			
-			else return false;
-		}
-		else return false;*/
-		
-		
-		
-		if((coord.length() == 2 || coord.length() == 3) && Tableau.conv.containsValue(coord.charAt(0)) ) {
 			if(coord.length() == 3 && coord.charAt(1) == '1' && coord.charAt(2) == '0') return true;
 			else if (coord.length() == 2 && Character.isDigit(coord.charAt(1))) return true;
+			
 		}
+		
 		return false;
 	}
 	

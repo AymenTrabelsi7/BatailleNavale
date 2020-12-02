@@ -76,6 +76,16 @@ public class Sandbox {
 
 	}
 	
+	public static int[] convert(String coord) {
+		int[] s = new int[2];
+		for(int i = 0;i<10;i++) {
+			if (Tableau.conv.get(i) == coord.charAt(0)) s[0] = i;
+		}
+		if(coord.length() == 3) s[1] = 9;
+		else s[1] = Character.getNumericValue(coord.charAt(1))-1;
+		return s;
+	}
+	
 	public static void main(String[] args) throws IOException {
 		conv.put(0, 'A');
 		conv.put(1, 'B');
@@ -88,8 +98,9 @@ public class Sandbox {
 		conv.put(8, 'I');
 		conv.put(9, 'J');
 		tab.getTab()[1][2] = 1;
-		int[] s1 = {2,3};
-		int[] s2 = {2,4};
-		System.out.println(verifierBateau(tab, s1, s2,"Torpilleur"));
+		int[] s1 = {0,9};
+		int[] s2 = {4,9};
+		System.out.println("0,9 : " + convert("E10")[0] + convert("E10")[1]);
+		System.out.println(verifierBateau(tab, s1, s2,"Porte-avions"));
 	}
 }
