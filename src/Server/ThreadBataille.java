@@ -18,6 +18,8 @@ public class ThreadBataille extends Thread {
 	String fluxJ1;
 	String fluxJ2;
 	boolean veutJouer;
+	boolean verifBateauJ1;
+	boolean verifBateauJ2;
 	
 	public void ecrire(String msg) {
 		out1.println(msg);
@@ -121,24 +123,31 @@ public class ThreadBataille extends Thread {
 				
 				while(veutJouer) {
 					ecrire("Votre Tableau : ");
-					out1.println(partie.getJoueur1());
-					out2.println(partie.getJoueur2());
+					out1.println(partie.getJoueur1().afficher(partie.getJoueur1().getTab()));
+					out2.println(partie.getJoueur2().afficher(partie.getJoueur2().getTab()));
 					
 					for(int i = 0;i<Bateau.typesBateaux.length;i++) {		
 						
-						for(int j = 0;j<2;j++) {						
-							int jinc = j+1;
-							ecrire("Emplacement du " + Bateau.typesBateaux[i][0] + " ( Point " + jinc + " ) ( Longueur : " + Bateau.typesBateaux[i][1] + " ) : ");
-							J1[j] = entrerCoordonnees(in1, out1);
-							J2[j] = entrerCoordonnees(in2, out2);
-						}
+						do {
+							for(int j = 0;j<2;j++) {						
+								int jinc = j+1;
+								ecrire("Emplacement du " + Bateau.typesBateaux[i][0] + " ( Point " + jinc + " ) ( Longueur : " + Bateau.typesBateaux[i][1] + " ) : ");
+								J1[j] = entrerCoordonnees(in1, out1);
+								J2[j] = entrerCoordonnees(in2, out2);
+							}
+						verifBateauJ1 = partie.verifierBateau(partie.getJoueur1(), J1[0], J1[1], Bateau.typesBateaux[i][0]);
+						verifBateauJ2 = partie.verifierBateau(partie.getJoueur2(), J2[0], J2[1], Bateau.typesBateaux[i][0]);
+							
+						if(!verifBateauJ1 || !verifBateauJ2) ecrire("Un joueur a donné de mauvaises coordonnées. Veuillez réessayer.");
+						} while (!verifBateauJ1 || !verifBateauJ2);
 						
 						partie.ajouterBateau(partie.getJoueur1(), Bateau.typesBateaux[i][0], J1[0], J1[1]);
 						partie.ajouterBateau(partie.getJoueur2(), Bateau.typesBateaux[i][0], J2[0], J2[1]);
+
 						
 						ecrire("Bateau ajouté ! Votre Tableau : ");
-						out1.println(partie.getJoueur1());
-						out2.println(partie.getJoueur2());
+						out1.println(partie.getJoueur1().afficher(partie.getJoueur1().getTab()));
+						out2.println(partie.getJoueur2().afficher(partie.getJoueur2().getTab()));
 					}
 					
 					ecrire("La partie va maintenant commencer");
@@ -167,7 +176,14 @@ public class ThreadBataille extends Thread {
 						
 						resultat += " aux coordonnées " + unconvert(J1Attaque) + ".\n";
 						
+
+						
 						ecrire(resultat);
+						
+						
+						out1.println("Vos attaques :\n" + partie.getJoueur1().afficher(partie.getJoueur1().getTabAttaques()));
+						out2.println("Votre tableau :\n" + partie.getJoueur2().afficher(partie.getJoueur2().getTab()));
+						
 						resultat = "";
 						
 						ecrire("C'est au joueur 2 de jouer !");
@@ -188,6 +204,9 @@ public class ThreadBataille extends Thread {
 						
 						ecrire(resultat);
 						resultat = "";
+						
+						out2.println("Vos attaques :\n" + partie.getJoueur2().afficher(partie.getJoueur2().getTabAttaques()));
+						out1.println("Votre tableau :\n" + partie.getJoueur1().afficher(partie.getJoueur1().getTab()));
 						
 					}
 					

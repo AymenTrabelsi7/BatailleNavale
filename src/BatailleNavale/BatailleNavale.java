@@ -40,6 +40,63 @@ public class BatailleNavale {
 	
 
 	
+	public boolean verifierBateau(Tableau tab, int[] coord1, int[] coord2, String typeBateau) {
+		
+		//Cas de bords Bords inférieurs Fait
+		//Cas vertical Fait
+		//coord1[0] > coord2[0] Fait
+		
+		if((coord1[0] != coord2[0]) && (coord1[1] != coord2[1])) {
+			return false;
+		}
+		
+		
+		if(Bateau.getLongueurBateau(typeBateau) == Math.max(Math.abs(coord1[0]-coord2[0])+1, Math.abs(coord1[1]-coord2[1])+1)) {
+			
+			int debutBateau;
+			int longueurBateau;
+			int currentBateau;
+			int currentAdjacente;
+			int axeFixe;
+			int currentAxefixeAdjacente;
+			int[][] tableau = tab.getTab();
+			int BordSuperieurTableau = tableau.length - 1;
+			
+			
+			if(coord1[0] == coord2[0]) {	//Horizontal
+				axeFixe = coord1[0];
+				debutBateau = Math.min(coord1[1], coord2[1]);
+				longueurBateau = Math.abs(coord2[1] - coord1[1])+1;
+			}
+			
+			else {							//Vertical
+				axeFixe = coord1[1];
+				debutBateau = Math.min(coord1[0], coord2[0]);
+				longueurBateau = Math.abs(coord2[0] - coord1[0])+1;				
+			}
+			
+			
+			for (int i = 0; i < longueurBateau; i++) {
+				currentBateau = debutBateau + i;
+				for (int caseAdjacente = -1; caseAdjacente <= 1; caseAdjacente++) {
+					
+					currentAdjacente = currentBateau + caseAdjacente <= BordSuperieurTableau ? 
+							Math.abs(currentBateau + caseAdjacente) : BordSuperieurTableau;
+							
+					currentAxefixeAdjacente = axeFixe + caseAdjacente <= BordSuperieurTableau ? 
+							Math.abs(axeFixe + caseAdjacente) : BordSuperieurTableau;
+							
+					if(tableau[axeFixe][currentAdjacente] == 1 || tableau[currentAxefixeAdjacente][currentBateau] == 1) return false;
+				}
+			}
+			
+			return true;
+		}
+		
+		else return false;
+
+	}
+	
 	
 	public void ajouterBateau(Tableau tab,String type, int[] coord1, int[] coord2) {
 		
@@ -83,10 +140,10 @@ public class BatailleNavale {
 	
 	
 	public Bateau attaque(Tableau tab,int[] coord) {
+		tab.ajouterAttaque(coord, tab.pointOccupe(coord));
 		if (tab.pointOccupe(coord)) {
 			tab.supprimer(coord);
 			Bateau bat = tab.getBateauTouche();
-
 			return bat;
 		}
 		

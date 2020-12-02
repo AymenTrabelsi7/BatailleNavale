@@ -7,17 +7,24 @@ public class Tableau {
 	
 		public static HashMap<Integer,Character> conv = new HashMap<Integer,Character>(0);
 		private int[][] tab;
+		private int[][] tabAttaques;
 		private Vector<Bateau> bateaux;
 		private int nbBateaux;
 		
 		
 		public Tableau() {
+			
 			tab = new int[10][10];
+			tabAttaques = new int[10][10];
 			for(int i = 0; i<10;i++) {
 				for(int j = 0; j<10;j++) {
 					tab[i][j] = 0;
+					tabAttaques[i][j] = 0;
 				}
 			}
+			
+			
+			
 			bateaux = new Vector<Bateau>(0);
 			nbBateaux = 0;
 			if(conv.size() == 0) {
@@ -37,9 +44,10 @@ public class Tableau {
 		
 		
 		
+	
 		
-		public String toString() {
-			String sortie = " ";
+		public String afficher(int[][] tableau) {
+			String sortie = "";
 			for(int i = 1;i<11;i++) {
 				sortie += " " + (i);
 			}
@@ -53,7 +61,7 @@ public class Tableau {
 				}
 				sortie += "-\n" + conv.get(i);
 				for(int j = 0; j<10;j++) {
-					sortie += "|" + tab[i][j];
+					sortie += "|" + tableau[i][j];
 				}
 				sortie += "|\n";
 			}
@@ -87,11 +95,23 @@ public class Tableau {
 		}
 
 		
+		
+
+
+		public int[][] getTabAttaques() {
+			return tabAttaques;
+		}
+
 
 
 
 		void ajouter (int[] coord) {
 			tab[coord[0]][coord[1]] = 1;
+		}
+		
+		void ajouterAttaque (int[] coord, boolean touche) {
+			if(touche)tabAttaques[coord[0]][coord[1]] = 2;
+			else tabAttaques[coord[0]][coord[1]] = 1;
 		}
 		
 		

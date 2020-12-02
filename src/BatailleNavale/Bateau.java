@@ -21,6 +21,16 @@ public class Bateau {
 		else horizontal = false;
 	}
 	
+	
+	
+	public static int getLongueurBateau(String type) {
+		for (int i = 0;i<typesBateaux.length;i++) {
+			if(type.equals(typesBateaux[i][0])) return Integer.parseInt(typesBateaux[i][1]);
+		}
+		
+		return -1;
+	}
+	
 	public int getNbCasesRestantes() {
 		return nbCasesRestantes;
 	}
