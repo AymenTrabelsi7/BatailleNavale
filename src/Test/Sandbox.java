@@ -1,3 +1,7 @@
+
+/* ***************Ce programme et ce package ont été créés à des fins de tests unitaires ***************/
+
+
 package Test;
 
 import java.io.IOException;
@@ -59,10 +63,20 @@ public class Sandbox {
 					currentAxefixeAdjacente = axeFixe + caseAdjacente <= BordSuperieurTableau ? 
 							Math.abs(axeFixe + caseAdjacente) : BordSuperieurTableau;
 							
-					if(tableau[axeFixe][currentAdjacente] == 1 || tableau[currentAxefixeAdjacente][currentBateau] == 1) {
-						System.out.println("Case adjacente ou superposée");
-						return false;
-					}
+							
+
+							
+							if(coord1[0] == coord2[0]) {
+								if(tableau[axeFixe][currentAdjacente] == 1 || tableau[currentAxefixeAdjacente][currentBateau] == 1)
+									System.out.println("Case adjacente ou superposée");
+									return false;
+							}
+							
+							else {
+								if(tableau[currentAdjacente][axeFixe] == 1 || tableau[currentBateau][currentAxefixeAdjacente] == 1)
+									System.out.println("Case adjacente ou superposée");
+									return false;
+							}
 				}
 			}
 			

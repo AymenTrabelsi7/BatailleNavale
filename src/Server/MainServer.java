@@ -12,7 +12,7 @@ public static void main(String[] args) {
 		while(true) {
 			Socket client1 = ecoute.accept();
 			Socket client2 = ecoute.accept();
-			new ThreadBataille(id,client1,client2).start();
+			new ServeurBatailleNavale(id,client1,client2).start();
 			id++;
 		}
 		} catch(Exception e) {

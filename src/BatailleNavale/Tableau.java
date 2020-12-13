@@ -116,19 +116,19 @@ public class Tableau {
 
 
 		//Methode fondamentale qui permet d'ajouter un point au tableau. Cette méthode sert de base pour ajouter les bateaux.
-		void ajouter (int[] coord) {
+		public void ajouter (int[] coord) {
 			tab[coord[0]][coord[1]] = 1;
 		}
 		
 		//Ajoute un point sur le tableau des attaques. 2 = touché, 1 = raté, 0 = pas encore attaqué
-		void ajouterAttaque (int[] coord, boolean touche) {
+		public void ajouterAttaque (int[] coord, boolean touche) {
 			if(touche)tabAttaques[coord[0]][coord[1]] = 2;
-			else tabAttaques[coord[0]][coord[1]] = 1;
+			else if(tabAttaques[coord[0]][coord[1]] != 2) tabAttaques[coord[0]][coord[1]] = 1;
 		}
 		
 		//Méthodes assez basiques
 		
-		void supprimer(int[] coord) {
+		public void supprimer(int[] coord) {
 			tab[coord[0]][coord[1]] = 0;
 		}
 		
