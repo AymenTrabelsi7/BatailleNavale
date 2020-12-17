@@ -14,7 +14,7 @@ public class MainClient {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 
-		System.out.println("Test");
+		
 		Scanner sc = new Scanner(System.in);
 		Joueur joueur = new Joueur(sc);
 		
@@ -121,14 +121,11 @@ public class MainClient {
 			}
 			else {
 				flux.envoyerRejouer("true");
-				System.out.println("DEBUG : Avant phrase");
 				System.out.println("Vous voulez rejouer. En attente du serveur...");
-				System.out.println("DEBUG : Après phrase");
 				while(partie.getRetry() == null) {
-					System.out.println("DEBUG : wait");
-					Thread.sleep(50);
+					Thread.sleep(500);
 				}
-				System.out.println("DEBUG : Boucle getRetry() passée");
+				//System.out.println("DEBUG : Boucle getRetry() passée");
 				if(partie.getRetry().equals("true")) {
 					System.out.println("L'adversaire veut également rejouer. Redémarrage...");
 					

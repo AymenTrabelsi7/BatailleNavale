@@ -68,7 +68,12 @@ public class ServeurBatailleNavale extends Thread {
 				j1.sendGagne(String.valueOf(j1.isPerdu()));
 				j2.sendGagne(String.valueOf(j2.isPerdu()));
 				
-				while(j1.getRetry() == null || j2.getRetry() == null) {}
+				while(j1.getRetry() == null || j2.getRetry() == null) {
+					Thread.sleep(500);
+					System.out.println("DEBUG : j1.getRetry() = " + j1.getRetry());
+					System.out.println("DEBUG : j2.getRetry() = " + j2.getRetry());
+				}
+				System.out.println("DEBUG : while getRetry() passé");
 				if(j1.getRetry().equals("false") || j2.getRetry().equals("false")) rejouer = false;
 				j1.sendRejouer(rejouer ? "true" : "false");
 				j2.sendRejouer(rejouer ? "true" : "false");
