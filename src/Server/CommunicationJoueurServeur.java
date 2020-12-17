@@ -34,7 +34,7 @@ public class CommunicationJoueurServeur {
 			System.out.println("Connexion au client échouée.");
 			e.printStackTrace();
 		}
-		System.out.println("Connexion réussie !");
+		System.out.println("Log : Un nouveau client s'est connecté !");
 
 
 		this.handleReceive = new HashMap<Character,RequeteIntf>(0);
@@ -74,9 +74,11 @@ public class CommunicationJoueurServeur {
 				else resultTotal = result;
 				joueur.addAttaques(joueur.getUsername() + "/" + result);
 				if(!result.equals("null")) {
+					System.out.println("Log : " + joueur.getUsername() + " a touché le " + result + " de l'adversaire.");
 					joueur.setNbCasesRestantes(joueur.getNbCasesRestantes()-1);
 					if(joueur.getNbCasesRestantes() <= 0) joueur.setPerdu(true);
 				}
+				else System.out.println("Log : " + joueur.getUsername() + " n'a touché aucun bateau.");
 				joueur.envoyerResultatAttaque(joueur,resultTotal);
 			}
 		});
@@ -92,7 +94,6 @@ public class CommunicationJoueurServeur {
 		handleReceive.put('r', new RequeteIntf() {
 			public void handleRequest(String request) {
 				String retry = request.split("/")[1];
-				System.out.println("DEBUG : Retry Response reçue du joueur " + joueur.getUsername() + " : " + retry);
 				joueur.setRetry(retry);
 			}
 		});
@@ -155,7 +156,6 @@ public class CommunicationJoueurServeur {
 		
 		handleSend.put('r', new RequeteIntf() {
 			public void handleRequest(String request) {
-				System.out.println("DEBUG : Retry Response envoyée au joueur " + joueur.getUsername() + " : " + request);
 				out.println("r/"+request);
 			}
 		});

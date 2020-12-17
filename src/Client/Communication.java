@@ -118,7 +118,6 @@ public class Communication extends Thread {
 		handleReceive.put('r', new RequeteIntf() {
 			public void handleRequest(String request) {
 				String retry = request.split("/")[1];
-				System.out.println("DEBUG : retry response reçue : " + retry);
 				partie.setRetry(retry);
 			}
 		});
@@ -169,7 +168,6 @@ public class Communication extends Thread {
 		
 		handleSend.put('r', new RequeteIntf() {
 			public void handleRequest(String request) {
-				System.out.println("DEBUG : retry response envoyée : " + request);
 				out.println("r/"+request);
 			}
 			
@@ -226,7 +224,6 @@ public class Communication extends Thread {
 	}
 
 	public void envoyerRejouer(String rejouer) {
-		System.out.println("DEBUG : envoyerRejouer() Démarrage");
 		handleSend.get('r').handleRequest(rejouer);
 	}
 

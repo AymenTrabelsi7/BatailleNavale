@@ -99,17 +99,16 @@ public class MainClient {
 						flux.envoyerAttaque(joueur.unconvert(tempCoordAttaque));
 
 						while(flux.getResultatAttaques().size() == ResultatAttaquesSize) {
-							Thread.sleep(100);
+							Thread.sleep(300);
 						}
 
 
 					}
 
 				}
-				Thread.sleep(500);
+				Thread.sleep(3000);
 			}
 			
-			System.out.println("DEBUG : getGagne() = " + partie.getGagne());
 			if(partie.getGagne().equals("g")) System.out.println("La partie est terminée, vous avez gagné ! Bravo !");
 			else if(partie.getGagne().equals("p")) System.out.println("La partie est terminée, vous avez perdu. Dommage !");
 			System.out.println("Voulez-vous rejouer ? y/n");
@@ -125,7 +124,6 @@ public class MainClient {
 				while(partie.getRetry() == null) {
 					Thread.sleep(500);
 				}
-				//System.out.println("DEBUG : Boucle getRetry() passée");
 				if(partie.getRetry().equals("true")) {
 					System.out.println("L'adversaire veut également rejouer. Redémarrage...");
 					
@@ -148,6 +146,8 @@ public class MainClient {
 				}
 				
 			}
+			
+			Thread.sleep(3000);
 
 		}
 		sc.close();

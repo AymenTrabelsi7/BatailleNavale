@@ -58,6 +58,7 @@ public class Joueur {
 		if(tab.pointOccupe(coordConverted)) {
 			Bateau bat = tab.getBateauTouche(coordConverted);
 			result = bat.getTypeBateau();
+			tab.supprimer(coordConverted);
 			System.out.print("L'adversaire a "); 
 			if(bat.getNbCasesRestantes() == 0) {
 				coule = "/c";
@@ -66,7 +67,6 @@ public class Joueur {
 			else System.out.print("touché");
 			System.out.println(" votre " + result + " aux coordonnées " + coordParsed + " ! Votre tableau :");
 			System.out.println(afficherTableau());
-			tab.supprimer(coordConverted);
 		}
 		else {
 			result = "null";
@@ -128,7 +128,7 @@ public class Joueur {
 		do {
 			System.out.print(">");
 			res = sc.nextLine();
-			if(res.length() != 1 || ((res.charAt(0) != 'y') && (res.charAt(0) != 'n'))) System.out.println("Veuillez entrer une réponse valide.");
+			if(res.length() != 1 || ((res.charAt(0) != 'y') && (res.charAt(0) != 'n'))) System.out.println("Veuillez entrer une réponse valide('y' ou 'n').");
 		}while(res.length() != 1 || ((res.charAt(0) != 'y') && (res.charAt(0) != 'n')));
 		return res.charAt(0);
 	}

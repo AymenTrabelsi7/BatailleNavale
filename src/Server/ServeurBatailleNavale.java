@@ -26,6 +26,8 @@ public class ServeurBatailleNavale extends Thread {
 		attaques = new Vector<String>(0);
 		bateaux = new Vector<String>(0);
 		rejouer = true;
+		
+		System.out.println("Log : Nouveau salon prêt à accueillir les joueurs !");
 	}
 
 
@@ -43,7 +45,7 @@ public class ServeurBatailleNavale extends Thread {
 			j2.sendJoueursConnectes("true");
 			while(rejouer) {				
 				while(!j1.isBateauxFinis() || !j2.isBateauxFinis()) {Thread.sleep(500);}
-				System.out.println("\nLog : Bateaux Terminés");
+				System.out.println("Log : Bateaux des deux joueurs terminés, la partie peut commencer");
 				j1.sendBateauxFinis("true");
 				j2.sendBateauxFinis("true");
 				
@@ -64,17 +66,18 @@ public class ServeurBatailleNavale extends Thread {
 						while(!isTourFini()) {Thread.sleep(500);}
 					}
 				}
+				System.out.print("Log : La partie est finie ! ");
+				System.out.print(j1.isPerdu() ? j2.getUsername() : j1.getUsername());
+				System.out.println(" a gagné !");
+				j1.sendGagne(String.valueOf(!j1.isPerdu()));
+				j2.sendGagne(String.valueOf(!j2.isPerdu()));
 				
-				j1.sendGagne(String.valueOf(j1.isPerdu()));
-				j2.sendGagne(String.valueOf(j2.isPerdu()));
-				
-				while(j1.getRetry() == null || j2.getRetry() == null) {
-					Thread.sleep(500);
-					System.out.println("DEBUG : j1.getRetry() = " + j1.getRetry());
-					System.out.println("DEBUG : j2.getRetry() = " + j2.getRetry());
+				while(j1.getRetry() == null || j2.getRetry() == null) {Thread.sleep(500);}
+				if(j1.getRetry().equals("false") || j2.getRetry().equals("false")) {
+					System.out.println("Log : Un des joueurs ne veut pas recommencer. La partie va s'arrêter...");
+					rejouer = false;
 				}
-				System.out.println("DEBUG : while getRetry() passé");
-				if(j1.getRetry().equals("false") || j2.getRetry().equals("false")) rejouer = false;
+				else System.out.println("Log : Les deux joueurs veulent recommencer. La partie va redémarrer...");
 				j1.sendRejouer(rejouer ? "true" : "false");
 				j2.sendRejouer(rejouer ? "true" : "false");
 				reset();
