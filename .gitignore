@@ -2,8 +2,8 @@
 /target/
 /build/
 /.settings/
-/.classpath
-/.project
+.classpath
+.project
 /Inputs_Test.txt
 /pom.xml
 /src/Test/
