@@ -58,6 +58,7 @@ public class CommunicationJoueurServeur {
 
 		handleReceive.put('i', new RequeteIntf() {
 			public void handleRequest(String request) {
+				//System.out.println("[touché coulé] DEBUG : valeur de l'input reçue : " + request);
 				String coord = request.split("/")[2];
 				joueur.demanderAttaque(joueur, coord);
 			}
@@ -67,12 +68,17 @@ public class CommunicationJoueurServeur {
 		handleReceive.put('o', new RequeteIntf() {
 			public void handleRequest(String request) {
 				String result = request.split("/")[2];
+				String resultTotal;
+				if(request.split("/").length == 4) {
+					resultTotal = result + "/" + request.split("/")[3];
+				}
+				else resultTotal = result;
 				joueur.addAttaques(joueur.getUsername() + "/" + result);
 				if(!result.equals("null")) {
 					joueur.setNbCasesRestantes(joueur.getNbCasesRestantes()-1);
 					if(joueur.getNbCasesRestantes() <= 0) joueur.setPerdu(true);
 				}
-				joueur.envoyerResultatAttaque(joueur,result);
+				joueur.envoyerResultatAttaque(joueur,resultTotal);
 			}
 		});
 		
@@ -135,6 +141,7 @@ public class CommunicationJoueurServeur {
 
 			public void handleRequest(String request) {
 				out.println("a/o/"+request);
+				//System.out.println("[touché coulé] DEBUG : valeur de l'output envoyée : " + request);
 			}
 
 		});

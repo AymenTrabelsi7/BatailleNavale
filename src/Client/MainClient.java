@@ -9,8 +9,11 @@ import BatailleNavale.Bateau;
 import java.io.*;
 
 public class MainClient {
+
+
+
 	public static void main(String[] args) throws IOException, InterruptedException {
-		
+
 		Scanner sc = new Scanner(System.in);
 		Joueur joueur = new Joueur(sc);
 		System.out.println("Bonjour " + joueur.getUsername() + " ! Nous allons vous connecter avec un autre joueur pour commencer une partie.");
@@ -19,27 +22,27 @@ public class MainClient {
 		Vector<Boolean> asyncMonTour = new Vector<Boolean>(0);
 		int MonTourSize = 0;
 		int ResultatAttaquesSize = 0;
-		
-		
+
+
 		boolean veutJouer = true;
 		boolean verifBateau;
 		int[][] tempCoordBateaux = new int[2][2];
 		int[] tempCoordAttaque = new int[2];
-		
+
 		while(!flux.isJoueursConnectes()) {
 			Thread.sleep(1000);
 			System.out.print(".");
 		}
-		
+
 		flux.sendUsername(joueur.getUsername());
 		System.out.println("Joueur connecté !\nBienvenue dans le jeu de Bataille Navale, veuillez commencer à choisir l'emplacement de vos bateaux");
-		
+
 		while(veutJouer) {
-			
-			
+
+
 			System.out.println("Votre Tableau : ");
 			System.out.println(joueur.afficherTableau());
-			
+
 
 			for(int i = 0;i<Bateau.typesBateaux.length;i++) {		
 
@@ -59,22 +62,23 @@ public class MainClient {
 
 				System.out.println("Bateau ajouté ! Votre Tableau : ");
 				System.out.println(joueur.getTab().afficher(joueur.getTab().getTab()));
-				
+
 			}
-			
-			
+
+
 			System.out.print("Vous avez fini d'ajouter vos bateaux !\nEn attente du serveur...");
 			flux.bateauxFinis("true");
-			
-			
+
+
 			while(!flux.isBateauxFinis()) {
 				Thread.sleep(1000);
 				System.out.print(".");
 			}
-			
-			
+
+
 			System.out.println("\nTout le monde est prêt !");
 			System.out.println("La partie va maintenant commencer !");
+
 			while(partie.getGagne() == null) {
 				if(MonTourSize != flux.getMonTour().size()) {
 					MonTourSize = flux.getMonTour().size();
@@ -91,17 +95,52 @@ public class MainClient {
 						joueur.setAttaqueActuelle(tempCoordAttaque);
 						ResultatAttaquesSize = flux.getResultatAttaques().size();
 						flux.envoyerAttaque(joueur.unconvert(tempCoordAttaque));
-						
+
 						while(flux.getResultatAttaques().size() == ResultatAttaquesSize) {
-							Thread.sleep(1000);
+							Thread.sleep(100);
 						}
 
 
 					}
-					
+
 				}
 				Thread.sleep(500);
 			}
+			if(partie.getGagne().equals("true")) System.out.println("La partie est terminée, vous avez gagné ! Bravo !");
+			else if(partie.getGagne().equals("false")) System.out.println("La partie est terminée, vous avez perdu. Dommage !");
+			System.out.println("Voulez-vous rejouer ? y/n");
+			char rejouer = joueur.entrerRejouer(sc);
+			if (rejouer == 'n') {
+				veutJouer = false;
+				flux.envoyerRejouer("false");
+				System.out.println("Vous ne voulez pas rejouer. Déconnexion du serveur...");
+			}
+			else {
+				flux.envoyerRejouer("true");
+				System.out.println("Vous voulez rejouer. En attente du serveur...");
+				while(partie.getRetry() == null) {
+					Thread.sleep(500);
+				}
+				if(partie.getRetry().equals("true")) {
+					System.out.println("L'adversaire veut également rejouer. Redémarrage...");
+
+					asyncMonTour = new Vector<Boolean>(0);
+					MonTourSize = 0;
+					ResultatAttaquesSize = 0;
+					veutJouer = true;
+					tempCoordBateaux = new int[2][2];
+					tempCoordAttaque = new int[2];
+
+					flux.reset();
+					joueur.reset();
+					partie.reset();
+				}
+				else {
+					System.out.println("L'adversaire ne veut pas rejouer. Déconnexion du serveur...");
+					veutJouer = false;
+				}
+			}
+
 		}
 		sc.close();
 	}

@@ -21,8 +21,7 @@ public class ListeningJoueurServeur extends Thread {
 		try {
 			while(true) {
 				if(in.ready()) input = in.readLine();
-				if(input != null) {					
-					//System.out.println("Listener/"+ comm.getJoueur().getUsername() + " : " + input);
+				if(input != null) {	
 					inputParsed = input.split("/");
 					char query = inputParsed[0].charAt(0);
 					switch (query) {

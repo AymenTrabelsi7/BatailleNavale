@@ -23,7 +23,7 @@ public class Bateau {
 		this.typeBateau = typeBateau;
 		this.coord1 = coord1;
 		this.coord2 = coord2;
-		this.longueurInitiale = Math.max(coord1[0]-coord2[0], coord1[1]-coord2[1]);
+		this.longueurInitiale = Math.max(Math.abs(coord1[0]-coord2[0])+1, Math.abs(coord1[1]-coord2[1])+1);
 		this.nbCasesRestantes = longueurInitiale;
 		if(coord1[0]-coord2[0] == 0) horizontal = true;
 		else horizontal = false;
@@ -58,24 +58,39 @@ public class Bateau {
 	//présent sur cette case. C'est pour ça que j'ai créé cette méthode qui permet à chaque
 	//instance de bateau de savoir si il a été touché par la dernière attaque qui a lieu. Le
 	//cas échéant, il renvoie true et synchronise son attribut nbCasesRestantes avec la réalité.
-	public boolean touche(int[][] tab) {
-		int s = 0;
+	public boolean touche(int[] coord) {
+		int debut,fin,axeFixe;
+		
+		
 		if(horizontal) {
-			for(int i = coord1[1];i<=coord2[1];i++) {
-				if (tab[coord1[0]][coord1[1]+i] == 1) s++;
+			debut = Math.min(coord1[1], coord2[1]);
+			fin = debut == coord1[1] ? coord2[1] : coord1[1];
+			axeFixe = coord1[0];
+			if(coord[0] == axeFixe && coord[1] >= debut && coord[1] <= fin) {
+				nbCasesRestantes--;
+				return true;
+			}
+			
+			else {
+				return false;
 			}
 		}
 		
 		else {
-			for(int i = coord1[0];i<=coord2[0];i++) {
-				if (tab[coord1[0]+i][coord1[1]] == 1) s++;
+			debut = Math.min(coord1[0], coord2[0]);
+			fin = debut == coord1[0] ? coord2[0] : coord1[0];
+			axeFixe = coord1[1];
+			if(coord[1] == axeFixe && coord[0] >= debut && coord[0] <= fin) {
+				nbCasesRestantes--;
+				return true;
+			}
+			
+			else {
+				return false;
 			}
 		}
-		if (s == nbCasesRestantes) return false;
-		else {
-			nbCasesRestantes = s;
-			return true;
-		}
+		
+
 	}
 	
 	

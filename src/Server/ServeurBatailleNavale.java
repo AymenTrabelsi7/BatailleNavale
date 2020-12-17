@@ -105,7 +105,6 @@ public class ServeurBatailleNavale extends Thread {
 		else if(expediteur == j2) {
 			j1.recevoirResultatAttaque(result);
 		}
-		System.out.println("Debug : tourFini est passé en true");
 		tourFini = true;
 	}
 

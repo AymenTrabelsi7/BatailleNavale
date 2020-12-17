@@ -19,6 +19,11 @@ public class Joueur {
 		this.username = sc.nextLine();
 	}
 
+	public Joueur() {
+		this.tab = new Tableau();
+		this.username = "default";
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -49,20 +54,21 @@ public class Joueur {
 		String coule = "";
 		String coordParsed = coord.split("/")[2];
 		int[] coordConverted = convert(coordParsed);
-		
 
 		if(tab.pointOccupe(coordConverted)) {
-			tab.supprimer(coordConverted);
-			Bateau bat = tab.getBateauTouche();
+			Bateau bat = tab.getBateauTouche(coordConverted);
 			result = bat.getTypeBateau();
+			//System.out.println("[touché coulé] DEBUG : NbcasesRestantes du Bateau "+ bat.getTypeBateau() + " : " + bat.getNbCasesRestantes());
 			System.out.print("L'adversaire a "); 
 			if(bat.getNbCasesRestantes() == 0) {
+				//System.out.println("[touché coulé] DEBUG : bat.getNbCasesRestantes() == 0 Vérifié");
 				coule = "/c";
 				System.out.print("coulé");
 			}
 			else System.out.print("touché");
 			System.out.println(" votre " + result + " aux coordonnées " + coordParsed + " ! Votre tableau :");
-			afficherTableau();
+			System.out.println(afficherTableau());
+			tab.supprimer(coordConverted);
 		}
 		else {
 			result = "null";
@@ -117,6 +123,23 @@ public class Joueur {
 	
 	public String afficherTableauAttaques() {
 		return tab.afficher(tab.getTabAttaques());
+	}
+
+	public char entrerRejouer(Scanner sc) {
+		String res;
+		do {
+			System.out.print(">");
+			res = sc.nextLine();
+			if(res.length() != 1 || (res.charAt(0) != 'y' && res.charAt(0) != 'n')) System.out.println("Veuillez entrer une réponse valide.");
+		}while(res.length() != 1 || (res.charAt(0) != 'y' && res.charAt(0) != 'n'));
+		return res.charAt(0);
+	}
+
+
+
+	public void reset() {
+		tab.reset();
+		attaqueActuelle = null;
 	}
 
 

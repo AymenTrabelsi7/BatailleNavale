@@ -13,6 +13,7 @@ public class BatailleNavale {
 
 
 	private String gagne = null;
+	private String retry = null;
 	
 	
 	public String getGagne() {
@@ -212,13 +213,32 @@ public class BatailleNavale {
 		//et on envoie l'instance du bateau en question
 		if (cible.pointOccupe(coord)) {
 			cible.supprimer(coord);
-			Bateau bat = cible.getBateauTouche();
+			Bateau bat = cible.getBateauTouche(coord);
 			return bat;
 		}
 		
 		else {
 			return null;
 		}
+	}
+
+
+
+	public String getRetry() {
+		return retry;
+	}
+
+
+
+	public void setRetry(String retry) {
+		this.retry = retry;
+	}
+
+
+
+	public void reset() {
+		gagne = null;
+		retry = null;
 	}
 
 

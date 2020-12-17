@@ -155,15 +155,32 @@ public class Tableau {
 		
 		//Est déclenchée après une attaque de l'adversaire. Permet de savoir si un bateau a été touché par l'attaque,
 		//et si oui lequel.
-		public Bateau getBateauTouche() {
+		public Bateau getBateauTouche(int[] coord) {
 			for(int i = 0;i<bateaux.size();i++) {
-				if(bateaux.get(i).touche(tab)) {
+				if(bateaux.get(i).touche(coord)) {
 					Bateau s = bateaux.get(i);
-					if(bateaux.get(i).getNbCasesRestantes()==0) bateaux.remove(i);
+					//if(s.getNbCasesRestantes()==0) bateaux.remove(i);
 					return s;
 				}
 			}
 			return null;
+		}
+
+
+
+
+		public void reset() {
+			tab = new int[10][10];
+			tabAttaques = new int[10][10];
+			for(int i = 0; i<10;i++) {
+				for(int j = 0; j<10;j++) {
+					tab[i][j] = 0;
+					tabAttaques[i][j] = 0;
+				}
+			}
+			
+			bateaux = new Vector<Bateau>(0);
+			nbBateaux = 0;
 		}
 		
 		

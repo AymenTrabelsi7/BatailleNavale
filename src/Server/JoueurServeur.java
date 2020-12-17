@@ -20,6 +20,7 @@ public class JoueurServeur {
 		this.comm = new CommunicationJoueurServeur(this, socket);
 		this.serveur = serveur;
 		this.setPerdu(false);
+		this.setNbCasesRestantes(18);
 	}
 	
 	public JoueurServeur(int id, Socket socket, ServeurBatailleNavale serveur) throws IOException {
@@ -27,6 +28,7 @@ public class JoueurServeur {
 		this.comm = new CommunicationJoueurServeur(this, socket);
 		this.serveur = serveur;
 		this.username = "default";
+		this.setPerdu(false);
 		this.setNbCasesRestantes(18);
 	}
 
