@@ -123,6 +123,17 @@ public class JoueurServeur {
 		serveur.envoyerResultatAttaque(joueur, result);
 	}
 
+	public void sendRejouer(String rejouer) {
+		getComm().getHandleSend().get('r').handleRequest(rejouer);
+	}
+
+	public void reset() {
+		this.setPerdu(false);
+		this.setNbCasesRestantes(18);
+		this.retry = null;
+		this.comm.reset();
+	}
+
 	
 
 	

@@ -225,13 +225,20 @@ public class BatailleNavale {
 
 
 	public String getRetry() {
-		return retry;
+		if(retry != null) {
+			synchronized(retry) {
+				return retry;
+			}
+		}
+		else return null;
 	}
 
 
 
 	public void setRetry(String retry) {
-		this.retry = retry;
+		synchronized(retry) {			
+			this.retry = retry;
+		}
 	}
 
 

@@ -5,6 +5,7 @@ import java.util.Vector;
 
 public class ServeurBatailleNavale extends Thread {
 	
+	@SuppressWarnings("unused")
 	private int idpartie;
 	private Vector<String> attaques;
 	private Vector<String> bateaux;
@@ -30,7 +31,10 @@ public class ServeurBatailleNavale extends Thread {
 
 
 	public void reset() {
-		//Reset toutes les variables, objets....
+		attaques.clear();
+		bateaux.clear();
+		j1.reset();
+		j2.reset();
 	}
 
 	public void run() {
@@ -66,6 +70,9 @@ public class ServeurBatailleNavale extends Thread {
 				
 				while(j1.getRetry() == null || j2.getRetry() == null) {}
 				if(j1.getRetry().equals("false") || j2.getRetry().equals("false")) rejouer = false;
+				j1.sendRejouer(rejouer ? "true" : "false");
+				j2.sendRejouer(rejouer ? "true" : "false");
+				reset();
 			}
 			
 		} catch (Exception e) {
@@ -119,4 +126,6 @@ public class ServeurBatailleNavale extends Thread {
 	public void addAttaques(String attaque) {
 		attaques.add(attaque);
 	}
+	
+	
 }

@@ -14,8 +14,10 @@ public class MainClient {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 
+		System.out.println("Test");
 		Scanner sc = new Scanner(System.in);
 		Joueur joueur = new Joueur(sc);
+		
 		System.out.println("Bonjour " + joueur.getUsername() + " ! Nous allons vous connecter avec un autre joueur pour commencer une partie.");
 		BatailleNavale partie = new BatailleNavale();
 		Communication flux = new Communication(joueur, partie);
@@ -106,8 +108,10 @@ public class MainClient {
 				}
 				Thread.sleep(500);
 			}
-			if(partie.getGagne().equals("true")) System.out.println("La partie est terminée, vous avez gagné ! Bravo !");
-			else if(partie.getGagne().equals("false")) System.out.println("La partie est terminée, vous avez perdu. Dommage !");
+			
+			System.out.println("DEBUG : getGagne() = " + partie.getGagne());
+			if(partie.getGagne().equals("g")) System.out.println("La partie est terminée, vous avez gagné ! Bravo !");
+			else if(partie.getGagne().equals("p")) System.out.println("La partie est terminée, vous avez perdu. Dommage !");
 			System.out.println("Voulez-vous rejouer ? y/n");
 			char rejouer = joueur.entrerRejouer(sc);
 			if (rejouer == 'n') {
@@ -117,14 +121,20 @@ public class MainClient {
 			}
 			else {
 				flux.envoyerRejouer("true");
+				System.out.println("DEBUG : Avant phrase");
 				System.out.println("Vous voulez rejouer. En attente du serveur...");
+				System.out.println("DEBUG : Après phrase");
 				while(partie.getRetry() == null) {
-					Thread.sleep(500);
+					System.out.println("DEBUG : wait");
+					Thread.sleep(50);
 				}
+				System.out.println("DEBUG : Boucle getRetry() passée");
 				if(partie.getRetry().equals("true")) {
 					System.out.println("L'adversaire veut également rejouer. Redémarrage...");
-
-					asyncMonTour = new Vector<Boolean>(0);
+					
+					
+					//RESET DES VARIABLES DU MAIN
+					asyncMonTour.clear();
 					MonTourSize = 0;
 					ResultatAttaquesSize = 0;
 					veutJouer = true;
@@ -139,6 +149,7 @@ public class MainClient {
 					System.out.println("L'adversaire ne veut pas rejouer. Déconnexion du serveur...");
 					veutJouer = false;
 				}
+				
 			}
 
 		}

@@ -6,6 +6,7 @@ import java.net.Socket;
 public class MainServer {
 public static void main(String[] args) {
 	try {
+		@SuppressWarnings("resource")
 		ServerSocket ecoute = new ServerSocket(1500);
 		System.out.println("Serveur lancé!");
 		int id=0;	

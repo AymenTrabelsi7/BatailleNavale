@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import BatailleNavale.BatailleNavale;
-import BatailleNavale.Bateau;
 import Common.RequeteIntf;
 
 public class Communication extends Thread {
@@ -79,7 +78,6 @@ public class Communication extends Thread {
 		
 		handleReceive.put('i', new RequeteIntf() {
 			public void handleRequest(String request) {
-				//System.out.println("[touché coulé] DEBUG : valeur de l'input reçue : " + request);
 				String result = joueur.verifierAttaque(request);
 				handleSend.get('o').handleRequest(result);
 			}
@@ -87,7 +85,6 @@ public class Communication extends Thread {
 		
 		handleReceive.put('o', new RequeteIntf() {
 			public void handleRequest(String request) {
-				//System.out.println("[touché coulé] DEBUG : valeur de l'output reçue : " + request);
 				String result = request.split("/")[2];
 				int[] attaque = joueur.getAttaqueActuelle();
 				
@@ -121,6 +118,7 @@ public class Communication extends Thread {
 		handleReceive.put('r', new RequeteIntf() {
 			public void handleRequest(String request) {
 				String retry = request.split("/")[1];
+				System.out.println("DEBUG : retry response reçue : " + retry);
 				partie.setRetry(retry);
 			}
 		});
@@ -148,7 +146,6 @@ public class Communication extends Thread {
 		handleSend.put('i', new RequeteIntf() {
 
 			public void handleRequest(String request) {
-				//System.out.println("[touché coulé] DEBUG : valeur de l'input envoyé : " + request);
 				out.println("a/i/"+request);
 			}
 			
@@ -157,7 +154,6 @@ public class Communication extends Thread {
 		handleSend.put('o', new RequeteIntf() {
 
 			public void handleRequest(String request) {
-				//System.out.println("[touché coulé] DEBUG : valeur de l'output envoyé : " + request);
 				out.println("a/o/"+request);
 			}
 			
@@ -172,8 +168,8 @@ public class Communication extends Thread {
 		});
 		
 		handleSend.put('r', new RequeteIntf() {
-
 			public void handleRequest(String request) {
+				System.out.println("DEBUG : retry response envoyée : " + request);
 				out.println("r/"+request);
 			}
 			
@@ -230,6 +226,7 @@ public class Communication extends Thread {
 	}
 
 	public void envoyerRejouer(String rejouer) {
+		System.out.println("DEBUG : envoyerRejouer() Démarrage");
 		handleSend.get('r').handleRequest(rejouer);
 	}
 

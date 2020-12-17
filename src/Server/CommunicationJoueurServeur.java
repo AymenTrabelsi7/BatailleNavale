@@ -58,7 +58,6 @@ public class CommunicationJoueurServeur {
 
 		handleReceive.put('i', new RequeteIntf() {
 			public void handleRequest(String request) {
-				//System.out.println("[touché coulé] DEBUG : valeur de l'input reçue : " + request);
 				String coord = request.split("/")[2];
 				joueur.demanderAttaque(joueur, coord);
 			}
@@ -93,6 +92,7 @@ public class CommunicationJoueurServeur {
 		handleReceive.put('r', new RequeteIntf() {
 			public void handleRequest(String request) {
 				String retry = request.split("/")[1];
+				System.out.println("DEBUG : Retry Response reçue du joueur " + joueur.getUsername() + " : " + retry);
 				joueur.setRetry(retry);
 			}
 		});
@@ -141,7 +141,6 @@ public class CommunicationJoueurServeur {
 
 			public void handleRequest(String request) {
 				out.println("a/o/"+request);
-				//System.out.println("[touché coulé] DEBUG : valeur de l'output envoyée : " + request);
 			}
 
 		});
@@ -152,6 +151,13 @@ public class CommunicationJoueurServeur {
 				out.println("g/"+request);
 			}
 
+		});
+		
+		handleSend.put('r', new RequeteIntf() {
+			public void handleRequest(String request) {
+				System.out.println("DEBUG : Retry Response envoyée au joueur " + joueur.getUsername() + " : " + request);
+				out.println("r/"+request);
+			}
 		});
 
 
@@ -179,6 +185,10 @@ public class CommunicationJoueurServeur {
 
 	public boolean getbateauxFinis() {
 		return bateauxFinis;
+	}
+
+	public void reset() {
+		bateauxFinis = false;
 	}
 
 }
