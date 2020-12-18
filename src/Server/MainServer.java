@@ -6,13 +6,14 @@ import java.net.Socket;
 public class MainServer {
 public static void main(String[] args) {
 	try {
+		@SuppressWarnings("resource")
 		ServerSocket ecoute = new ServerSocket(1500);
 		System.out.println("Serveur lancé!");
 		int id=0;	
 		while(true) {
 			Socket client1 = ecoute.accept();
 			Socket client2 = ecoute.accept();
-			new ThreadBataille(id,client1,client2).start();
+			new ServeurBatailleNavale(id,client1,client2).start();
 			id++;
 		}
 		} catch(Exception e) {
