@@ -150,6 +150,10 @@ Nous revenons au côté du client J1. Le Listener reçoit la requête a/o, il ap
   
   ### 4.  Présentation algorithmique du programme
   
+  Cet algorithme représente les processus éxécutés par le Client (à gauche) et le Serveur (à droite), ainsi que leurs interactions via le Socket. Cela permet de voir comment les requêtes sont utilisées et traitées. Le deuxième client n'est pas présent dans l'algorithme, mais ça ne change que peu de choses.
+
+(Cliquer pour agrandir, l'image est au format svg)
+  
   ![Algorithme](/doc_ressources/algorithme.svg)
   
   ### 5.  Informations utiles
