@@ -47,6 +47,7 @@ public class BatailleNavale {
 		
 		//La méthode commence par vérifier si tous les points du bateau sont alignés sur un seul axe
 		if((coord1[0] != coord2[0]) && (coord1[1] != coord2[1])) {
+			System.out.println("Erreur : Le bateau n'est pas sur un seul axe.");
 			return false;
 		}
 		
@@ -128,13 +129,16 @@ public class BatailleNavale {
 						//-Dans la 1ère on garde l'axe fixe initial et on décale l'axe variable (ce qui permet
 						//de vérifier les cases à gauche et à droite de currentBateau), et inversement (... en haut
 						//et en bas de currentBateau)
-						if(tableau[axeFixe][currentAdjacente] == 1 || tableau[currentAxefixeAdjacente][currentBateau] == 1)
+						if(tableau[axeFixe][currentAdjacente] == 1 || tableau[currentAxefixeAdjacente][currentBateau] == 1) {
+							System.out.println("Erreur : Une des cases du bateau, ou ses cases adjacentes, sont occupées.");
 							return false;
+						}
 						
 					}
 					
 					else { //Cas Vertical
 						if(tableau[currentAdjacente][axeFixe] == 1 || tableau[currentBateau][currentAxefixeAdjacente] == 1)
+							System.out.println("Erreur : Une des cases du bateau, ou ses cases adjacentes, sont occupées.");
 							return false;
 					}
 				}
@@ -144,7 +148,10 @@ public class BatailleNavale {
 			return true;
 		}
 		
-		else return false;
+		else {
+			System.out.println("Erreur : Le bateau n'a pas la bonne longueur. Il doit être de longueur " + Bateau.getLongueurBateau(typeBateau) +".");
+			return false;
+		}
 
 	}
 	
