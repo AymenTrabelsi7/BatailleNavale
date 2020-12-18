@@ -20,7 +20,7 @@
   
   #### Fonctionnement
   
-  Le jeu est architecturé sur le modèle Client-Serveur. Chaque joueur constitue un client, et éxécute sa propre instance du jeu. Le serveur, lui, sert d'orchestre de   communication entre les deux joueurs : il prévient les joueurs quand la partie peut commencer, il leur envoie les attaques de leur adversaire pour qu'il les traite, mais il est aussi chargé de décider du gagnant (il est cependant prévu de déplaçer le calcul des résultats des attaques sur le serveur, ce qui serait plus logique). Chaque joueur Lorsque le client est lancé, le joueur rentre son nom d'utilisateur et se connecte au salon. Il attend ensuite qu'un autre joueur se connecte. Lorsqu'il y a deux joueurs, la partie commence par le placement des bateaux : chaque joueur place ses bateaux de leur côté, puis attend que l'autre joueur ait fini également. Pour placer un bateau il faut deux coordonnées (début et fin du bateau). Le placement du bateau doit respecter certaines conditions :
+  Le jeu est architecturé sur le modèle Client-Serveur. Chaque joueur constitue un client, et éxécute sa propre instance du jeu. Le serveur, lui, sert d'orchestre de   communication entre les deux joueurs : il prévient les joueurs quand la partie peut commencer, il leur envoie les attaques de leur adversaire pour qu'il les traite, mais il est aussi chargé de décider du gagnant (il est cependant prévu de déplaçer le calcul des résultats des attaques sur le serveur, ce qui serait plus logique). Lorsque le client est lancé, le joueur rentre son nom d'utilisateur et se connecte au salon. Il attend ensuite qu'un autre joueur se connecte. Lorsqu'il y a deux joueurs, la partie commence par le placement des bateaux : chaque joueur place ses bateaux de leur côté, puis attend que l'autre joueur ait fini également. Pour placer un bateau il faut deux coordonnées (début et fin du bateau). Le placement du bateau doit respecter certaines conditions :
   * Le bateau doit être complètement horizontal ou complètement vertical (pas de bateaux en diagonale). Autrement dit, le bateau doit avoir un axe qui ne varie pas.
   * Le bateau doit faire la longueur de son type (par exemple si c'est un croiseur, il doit faire exactement 2 cases).
   * Le bateau doit (évidemment) être placé sur des coordonnées qui ne sont pas déjà occupées par un autre bateau
@@ -50,7 +50,7 @@ La partie lorsqu'il y a un perdant, déterminé par le serveur. Le programme pro
   
   Les packages Client/Serveur contiennent les points d'entrée des deux programmes. Il gèrent le déroulement de la partie, la communication et les entrées utilisateur    pour le package Client. Le package BatailleNavale contient les classes nécessaires au jeu lui-même. Il permet de vérifier les règles de placement des bateaux, créer et afficher les tableaux, ajouter des bateaux au tableau, vérifier une attaque... Ce package est utilisé uniquement par le package Client. Le package Common contient l'interface de communication permettant d'appeler les différentes méthodes de gestion des requêtes. La partie communication est expliquée dans [la partie suivante](#3--présentation-du-protocole-de-communication).
 
-  Si on veut représenter la hiérarchie des instances des classes, c'est-à-dire les liens d'instanciation entre les classes, on peut le représenter de cette manière :
+  Si on veut représenter la hiérarchie des instances des classes, c'est-à-dire les liens d'instanciation entre les classes, on peut le représenter de cette manière (cliquer pour agrandir) :
   
   ![Hierarchies des instances de classes](/doc_ressources/hierarchies.bmp)
 
@@ -119,6 +119,8 @@ Chaque requête est définie par un identifiant et une implémentation de l'inte
 private HashMap<Character,RequeteIntf> handleReceive;
 private HashMap<Character,RequeteIntf> handleSend;
 ```
+Les émissions et les réception sont séparées, car certaines commandes ont des identifiants identiques.
+
 Si on veut ajouter une requête dans cette table, on peut le faire de cette manière (ici l'ajout de la requête "/c") :
 ```java
 handleReceive.put('c', new RequeteIntf() {
@@ -133,8 +135,22 @@ handleReceive.put('c', new RequeteIntf() {
 ```
 
 Le Listener se charge d'écouter le socket et d'appeller les callbacks des récepteurs si il reçoit l'identifiant en question. Le Main se charge d'appeller les callbacks émetteurs pour notifier le destinataire d'une action utilisateur.
+
+#### Exemple : Envoi d'une attaque et réception des résultats (se référer au schéma des instances plus haut pour les classes)
+
+Nous sommes du côté du client J1. J1 veut attaquer "A1". Il appelle la requête d'émission a/i dans la classe Communication et place en paramètre "A1". La requête se charge d'envoyer a/i/A1 vers le serveur. A partir de là, le client J1 ne va qu'attendre le résultat. 
+
+Nous arrivons alors sur le serveur. Le ListenerJ1 du serveur reçoit a/i/A1, il appelle la requête de réception a/i avec "A1" en paramètre. Cette requête se charge d'informer le serveur que J1 veut attaquer A1. Le serveur va appeler la classe CommunicationJ2, pour utiliser une autre requête, d'émission cette fois, a/i avec "A1" en paramètre. Cette requête d'émission se charge d'envoyer sur le socket du client J2 la commande a/i/A1.
+
+Nous sommes maintenant du côté du client J2. Le Listener reçoit la requête a/i/A1,  il va donc appeler la requête de réception correspondante. Cette requête va appeler la classe Joueur, qui se charge de vérifier l'attaque et renvoyer un résultat. La requête prend ensuite le résultat, et appelle une autre requête d'émission, a/o, avec le résultat en paramètre. Cette requête va envoyer le résultat sur le serveur.
+
+Nous revenons donc du côté du serveur. Le ListenerJ2 reçoit a/o et appelle donc la requête de réception correspondante. Cette requête notiie le serveur, qui stocke le résultat et le transfère au joueur via la requête d'émission a/o.
+
+Nous revenons au côté du client J1. Le Listener reçoit la requête a/o, il appelle la requête correspondante, qui se charge d'afficher le résultat à l'écran.
   
   ### 4.  Présentation algorithmique du programme
+  
+  ![Algorithme](/doc_ressources/algorithme.svg)
   
   ### 5.  Informations utiles
 
