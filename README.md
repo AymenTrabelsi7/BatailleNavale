@@ -4,17 +4,29 @@ Cette page fait office de description complète du projet
 
 Sommaire :
 
-  1.Description Générale
+  ### [1.Description Générale]()
   
-  2.Présentation structurelle du programme
+  ### [2.Présentation structurelle du programme]()
   
-  3.Présentation du protocole de communication
+  ### [3.Présentation du protocole de communication]()
   
-  4.Présentation algorithmique du programme
+  ### [4.Présentation algorithmique du programme]()
   
-  5.Informations utiles
-
-**Type**|**Identifiant**|**Syntaxe**|**Description**
+  ### [5.Informations utiles]()
+  
+  
+  
+  ### 1.  Description Générale
+  
+  ### 2.  Présentation structurelle du programme
+  
+  ![Hierarchies des instances de classes](/doc_ressources/hierarchies.bmp)
+  
+  ### 3.  Présentation du protocole de communication
+  
+  #### Client
+  
+  **Type**|**Identifiant**|**Syntaxe**|**Description**
 :-----:|:-----:|:-----:|:-----:
 Réception|/c|c/`true-false`|Indique aux deux joueurs qu’ils sont deux dans le salon et que la partie peut commencer.
 Réception|/b|b/`true-false` |Indique que aux deux joueurs qu’ils ont fini de placer leurs bateaux.
@@ -28,3 +40,16 @@ Réception|/r|r/`true-false`|Indique au joueur si la partie va recommencer (renv
 Émission|/o|a/o/’null’ ou a/o/`Bateau` ou a/o/`Bateau`/’coulé’|Envoie les résultats de l’attaque subie. Dans le 1er cas, l’attaque est ratée, dans le 2e un bateau est touché, et dans le 3e il est coulé.
 Émission|/u|u/`username`|Envoie l’username choisi au serveur.
 Émission|/r|r/`true-false`|Indique au serveur si le joueur veut recommencer.
+
+  
+  
+  #### Serveur
+  
+  
+  
+  
+  
+  ### 4.  Présentation algorithmique du programme
+  
+  ### 5.  Informations utiles
+
