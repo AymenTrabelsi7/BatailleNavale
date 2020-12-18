@@ -4,15 +4,15 @@ Cette page fait office de description complète du projet
 
 Sommaire :
 
-  ### [1.Description Générale]()
+  ### [1.Description Générale](#1--description-générale)
   
-  ### [2.Présentation structurelle du programme]()
+  ### [2.Présentation structurelle du programme](#2--présentation-structurelle-du-programme)
   
-  ### [3.Présentation du protocole de communication]()
+  ### [3.Présentation du protocole de communication](#3--présentation-du-protocole-de-communication)
   
-  ### [4.Présentation algorithmique du programme]()
+  ### [4.Présentation algorithmique du programme](#4--présentation-algorithmique-du-programme)
   
-  ### [5.Informations utiles]()
+  ### [5.Informations utiles](#5--informations-utiles)
   
   
   
