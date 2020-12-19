@@ -20,7 +20,7 @@
   
   #### Fonctionnement
   
-  Le jeu est architecturé sur le modèle Client-Serveur. Chaque joueur constitue un client, et éxécute sa propre instance du jeu. Le serveur, lui, sert d'orchestre de   communication entre les deux joueurs : il prévient les joueurs quand la partie peut commencer, il leur envoie les attaques de leur adversaire pour qu'il les traite, mais il est aussi chargé de décider du gagnant (il est cependant prévu de déplaçer le calcul des résultats des attaques sur le serveur, ce qui serait plus logique). Lorsque le client est lancé, le joueur rentre son nom d'utilisateur et se connecte au salon. Il attend ensuite qu'un autre joueur se connecte. Lorsqu'il y a deux joueurs, la partie commence par le placement des bateaux : chaque joueur place ses bateaux de leur côté, puis attend que l'autre joueur ait fini également. Pour placer un bateau il faut deux coordonnées (début et fin du bateau). Le placement du bateau doit respecter certaines conditions :
+  Le jeu est architecturé sur le modèle Client-Serveur. Chaque joueur constitue un client, et éxécute sa propre instance du jeu. Le serveur, lui, sert d'orchestre de   communication entre les deux joueurs : il prévient les joueurs quand la partie peut commencer, il leur envoie les attaques de leur adversaire pour qu'il les traite, mais il est aussi chargé de décider du gagnant (il est cependant prévu de déplaçer le calcul des résultats des attaques sur le serveur, ce qui serait plus logique). Lorsque le client est lancé, le joueur rentre son nom d'utilisateur et se connecte au serveur central. Il attend ensuite qu'un autre joueur se connecte. Lorsqu'il y a deux joueurs, le serveur central crée un nouveau salon sur un port, et communique le numéro de port aux joueurs. Ensuite les joueurs se connectent sur ce port, et dès que le salon s'est connecté aux deux joueurs, il commence le jeu. La partie commence par le placement des bateaux : chaque joueur place ses bateaux de leur côté, puis attend que l'autre joueur ait fini également. Pour placer un bateau il faut deux coordonnées (début et fin du bateau). Le placement du bateau doit respecter certaines conditions :
   * Le bateau doit être complètement horizontal ou complètement vertical (pas de bateaux en diagonale). Autrement dit, le bateau doit avoir un axe qui ne varie pas.
   * Le bateau doit faire la longueur de son type (par exemple si c'est un croiseur, il doit faire exactement 2 cases).
   * Le bateau doit (évidemment) être placé sur des coordonnées qui ne sont pas déjà occupées par un autre bateau
@@ -41,6 +41,8 @@ La partie lorsqu'il y a un perdant, déterminé par le serveur. Le programme pro
   #### Note
   
   L'écriture des coordonnées prend la forme "{Lettre}{Chiffre}" Avec Lettre = A-J et Chiffre = 1-10. Par exemple : "A2" est une coordonnée correcte, comme "J10" ou "F9". Mais "A0" ou "a1", "A 1", "K1" ou encore "G11" ne sont pas correctes.
+  
+  Avec le système de serveur central et de création de salon, il est possible de lançer autant de parties en même temps qu'on le souhaite.
   
   ### 2.  Présentation structurelle du programme
   
@@ -71,6 +73,7 @@ La partie lorsqu'il y a un perdant, déterminé par le serveur. Le programme pro
   
   **Type**|**Identifiant**|**Syntaxe**|**Description**
 :-----:|:-----:|:-----:|:-----:
+Réception|/p|c/`port`|Indique aux deux joueurs le port sur lequel se connecter pour accéder au salon.
 Réception|/c|c/`true-false`|Indique aux deux joueurs qu’ils sont deux dans le salon et que la partie peut commencer.
 Réception|/b|b/`true-false` |Indique que aux deux joueurs qu’ils ont fini de placer leurs bateaux.
 Réception|/t|t/`true-false`|Indique à un joueur si c’est son tour (true) ou non (false).
@@ -91,6 +94,7 @@ Réception|/r|r/`true-false`|Indique au joueur si la partie va recommencer (renv
   
   **Type**|**Identifiant**|**Syntaxe**|**Description**
 :-----:|:-----:|:-----:|:-----:
+Émission|/p|c/`port`|Indique aux deux joueurs le port sur lequel se connecter pour accéder au salon.
 Émission|/c|c/`true-false`|Indique aux deux joueurs qu’ils sont deux dans le salon et que la partie peut commencer.
 Émission|/b|b/`true-false` |Indique que aux deux joueurs qu’ils ont fini de placer leurs bateaux.
 Émission|/t|t/`true-false`|Indique à un joueur si c’est son tour (true) ou non (false).
