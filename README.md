@@ -1,6 +1,6 @@
-# Bataille Navale - Projet Programmation Réseau
+# Bataille Navale
 
-#### Cette page fait office de description complète du projet. Elle doit permettre de comprendre tout du fonctionnement interne du projet.
+#### Cette page fait office de description complète du projet. Elle doit permettre de comprendre tout de son fonctionnement interne.
 
 ## Sommaire :
 
@@ -216,6 +216,6 @@ I4
 
 I5
 
-## [Haut de page](#bataille-navale---projet-programmation-réseau)
+## [Haut de page](#bataille-navale)
 
 
