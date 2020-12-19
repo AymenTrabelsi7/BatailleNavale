@@ -216,6 +216,6 @@ I4
 
 I5
 
-## [Haut de page](#bataille-navale---projet-programmation-réseau)
+## [Haut de page](#bataille-navale)
 
 
