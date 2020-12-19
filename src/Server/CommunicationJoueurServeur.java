@@ -12,7 +12,6 @@ public class CommunicationJoueurServeur {
 	@SuppressWarnings("unused")
 	private CommunicationJoueurServeur thisComm;
 	public JoueurServeur joueur;
-	public ServeurBatailleNavale serveur;
 	@SuppressWarnings("unused")
 	private Socket joueurSocket;
 	private PrintWriter out;
@@ -25,16 +24,14 @@ public class CommunicationJoueurServeur {
 		
 		this.thisComm = this;
 		this.joueur = joueur;
-		this.serveur = joueur.getServeur();
 		this.out = new PrintWriter(joueurSocket.getOutputStream(), true);
 
 		try {
 			new ListeningJoueurServeur(joueurSocket,this).start();
 		} catch (Exception e) {
-			System.out.println("Connexion au client échouée.");
+			System.out.println("ERROR : Connexion au client échouée.");
 			e.printStackTrace();
 		}
-		System.out.println("Log : Un nouveau client s'est connecté !");
 
 
 		this.handleReceive = new HashMap<Character,RequeteIntf>(0);
@@ -47,7 +44,7 @@ public class CommunicationJoueurServeur {
 				String result = request.split("/")[1];
 				if(result.equals("true")) {
 					bateauxFinis = true;
-					System.out.println("Log : Les bateaux de " + joueur.getUsername() + " sont placés !");
+					joueur.logServeur("Les bateaux de " + joueur.getUsername() + " sont placés !");
 				}
 				else if(result.equals("false")) bateauxFinis = false;
 				else {
@@ -74,11 +71,11 @@ public class CommunicationJoueurServeur {
 				else resultTotal = result;
 				joueur.addAttaques(joueur.getUsername() + "/" + result);
 				if(!result.equals("null")) {
-					System.out.println("Log : " + joueur.getUsername() + " a touché le " + result + " de l'adversaire.");
+					joueur.logServeur(joueur.getUsername() + " a touché le " + result + " de l'adversaire.");
 					joueur.setNbCasesRestantes(joueur.getNbCasesRestantes()-1);
 					if(joueur.getNbCasesRestantes() <= 0) joueur.setPerdu(true);
 				}
-				else System.out.println("Log : " + joueur.getUsername() + " n'a touché aucun bateau.");
+				else joueur.logServeur(joueur.getUsername() + " n'a touché aucun bateau.");
 				joueur.envoyerResultatAttaque(joueur,resultTotal);
 			}
 		});
@@ -87,7 +84,7 @@ public class CommunicationJoueurServeur {
 			public void handleRequest(String request) {
 				String usr = request.split("/")[1];
 				joueur.setUsername(usr);
-				System.out.println("Log : Utilisateur " + usr + " ajouté !");
+				joueur.logServeur("Utilisateur " + usr + " ajouté !");
 			}
 		});
 		

@@ -8,7 +8,7 @@ public class JoueurServeur {
 	private int id;
 	private String username;
 	private CommunicationJoueurServeur comm;
-	private ServeurBatailleNavale serveur;
+	public ServeurBatailleNavale serveur;
 	private int nbCasesRestantes;
 	private boolean perdu;
 	private String retry = null;
@@ -25,9 +25,9 @@ public class JoueurServeur {
 	
 	public JoueurServeur(int id, Socket socket, ServeurBatailleNavale serveur) throws IOException {
 		this.id = id;
+		this.username = "default";
 		this.comm = new CommunicationJoueurServeur(this, socket);
 		this.serveur = serveur;
-		this.username = "default";
 		this.setPerdu(false);
 		this.setNbCasesRestantes(18);
 	}
@@ -132,6 +132,10 @@ public class JoueurServeur {
 		this.setNbCasesRestantes(18);
 		this.retry = null;
 		this.comm.reset();
+	}
+
+	public void logServeur(String msg) {
+		serveur.log(msg);
 	}
 
 	

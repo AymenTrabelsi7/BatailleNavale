@@ -22,20 +22,41 @@ public class Communication extends Thread {
 	private boolean bateauxFinis;
 	private Vector<Boolean> monTour;
 	private Vector<String> resultatAttaques;
+	private int port;
 	
-	public Communication(Joueur joueur, BatailleNavale partie) {
+	
+	public Communication() {
+		try {
+			this.port = -1;
+			this.serveurSocket = new Socket("127.0.0.1", 1500);
+			new Listening(serveurSocket,this).start();
+			this.handleReceive = new HashMap<Character,RequeteIntf>(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		handleReceive.put('p', new RequeteIntf() {
+			public void handleRequest(String request) {
+				String port = request.split("/")[1];
+				setPort(Integer.parseInt(port));
+			}
+		});
+	}
+	
+	
+	public Communication(Joueur joueur, BatailleNavale partie,int port) {
 		
 		
 		
 		try {
-			this.serveurSocket = new Socket("127.0.0.1", 1500);
+			this.serveurSocket = new Socket("127.0.0.1", port);
 			this.out = new PrintWriter(serveurSocket.getOutputStream(), true);
 			new Listening(serveurSocket,this).start();
 		} catch (Exception e) {
-			System.out.println("Connexion au serveur échouée.");
+			System.out.println("Connexion au salon échouée.");
 			e.printStackTrace();
 		}
-		System.out.println("Connexion au serveur réussie ! En attente du serveur...");
+		System.out.println("Connexion au salon réussie ! En attente du serveur...");
 		
 		
 		this.joueur = joueur;
@@ -231,6 +252,16 @@ public class Communication extends Thread {
 		monTour = new Vector<Boolean>(0);
 		resultatAttaques = new Vector<String>(0);
 		bateauxFinis = false;
+	}
+
+
+	public int getPort() {
+		return port;
+	}
+
+
+	public void setPort(int port) {
+		this.port = port;
 	}
 	
 }

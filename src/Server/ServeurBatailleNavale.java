@@ -1,11 +1,14 @@
 package Server;
 
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
 
 public class ServeurBatailleNavale extends Thread {
 	
-	@SuppressWarnings("unused")
+
+	private ServerSocket salon;
+	private int port;
 	private int idpartie;
 	private Vector<String> attaques;
 	private Vector<String> bateaux;
@@ -13,12 +16,25 @@ public class ServeurBatailleNavale extends Thread {
 	public JoueurServeur j2;
 	private boolean tourFini;
 	private boolean rejouer;
+	
+	public void log(String msg) {
+		System.out.println("[Salon " + getIdpartie() + "] Log : "+ msg);
+	}
 
-	public ServeurBatailleNavale(int id, Socket client1, Socket client2) {
+	public ServeurBatailleNavale(int id, int port) {
 		try {
+			this.port = port;
 			this.idpartie = id;
+			log("Nouveau salon sur le port " + port + " prêt à accueillir les joueurs !");
+			salon = new ServerSocket(port);
+			Socket client1 = salon.accept();
+			Socket client2 = salon.accept();
+			
 			j1 = new JoueurServeur((int) Math.random()*100000, client1,this);
+			log("Un joueur s'est connecté !");
 			j2 = new JoueurServeur((int) Math.random()*100000, client2,this);
+			log("Les 2 Joueurs se sont connectés !");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -27,7 +43,7 @@ public class ServeurBatailleNavale extends Thread {
 		bateaux = new Vector<String>(0);
 		rejouer = true;
 		
-		System.out.println("Log : Nouveau salon prêt à accueillir les joueurs !");
+		
 	}
 
 
@@ -45,7 +61,7 @@ public class ServeurBatailleNavale extends Thread {
 			j2.sendJoueursConnectes("true");
 			while(rejouer) {				
 				while(!j1.isBateauxFinis() || !j2.isBateauxFinis()) {Thread.sleep(500);}
-				System.out.println("Log : Bateaux des deux joueurs terminés, la partie peut commencer");
+				log("Bateaux des deux joueurs terminés, la partie peut commencer");
 				j1.sendBateauxFinis("true");
 				j2.sendBateauxFinis("true");
 				
@@ -66,18 +82,18 @@ public class ServeurBatailleNavale extends Thread {
 						while(!isTourFini()) {Thread.sleep(500);}
 					}
 				}
-				System.out.print("Log : La partie est finie ! ");
-				System.out.print(j1.isPerdu() ? j2.getUsername() : j1.getUsername());
-				System.out.println(" a gagné !");
+				String gagne = "Log : La partie est finie ! ";
+				gagne += j1.isPerdu() ? j2.getUsername() : j1.getUsername();
+				log(gagne + " a gagné !");
 				j1.sendGagne(String.valueOf(!j1.isPerdu()));
 				j2.sendGagne(String.valueOf(!j2.isPerdu()));
 				
 				while(j1.getRetry() == null || j2.getRetry() == null) {Thread.sleep(500);}
 				if(j1.getRetry().equals("false") || j2.getRetry().equals("false")) {
-					System.out.println("Log : Un des joueurs ne veut pas recommencer. La partie va s'arrêter...");
+					log("Un des joueurs ne veut pas recommencer. La partie va s'arrêter...");
 					rejouer = false;
 				}
-				else System.out.println("Log : Les deux joueurs veulent recommencer. La partie va redémarrer...");
+				else log("Les deux joueurs veulent recommencer. La partie va redémarrer...");
 				j1.sendRejouer(rejouer ? "true" : "false");
 				j2.sendRejouer(rejouer ? "true" : "false");
 				reset();
@@ -133,6 +149,18 @@ public class ServeurBatailleNavale extends Thread {
 
 	public void addAttaques(String attaque) {
 		attaques.add(attaque);
+	}
+
+
+
+	public int getPort() {
+		return port;
+	}
+
+
+
+	public int getIdpartie() {
+		return idpartie;
 	}
 	
 	

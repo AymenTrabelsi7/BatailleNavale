@@ -14,13 +14,18 @@ public class MainClient {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 
-		
 		Scanner sc = new Scanner(System.in);
 		Joueur joueur = new Joueur(sc);
-		
 		System.out.println("Bonjour " + joueur.getUsername() + " ! Nous allons vous connecter avec un autre joueur pour commencer une partie.");
+		
+		Communication choixSalon = new Communication();
+		while(choixSalon.getPort() <= 0) Thread.sleep(500);
+		System.out.println("Joueur trouvé ! Déconnexion du serveur central et connexion au serveur du salon sur le port " + choixSalon.getPort() +"...");
+		
+		
 		BatailleNavale partie = new BatailleNavale();
-		Communication flux = new Communication(joueur, partie);
+		Communication flux = new Communication(joueur,partie,choixSalon.getPort());
+		choixSalon = null;
 		Vector<Boolean> asyncMonTour = new Vector<Boolean>(0);
 		int MonTourSize = 0;
 		int ResultatAttaquesSize = 0;
