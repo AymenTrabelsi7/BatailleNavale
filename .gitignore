@@ -4,7 +4,8 @@
 /.settings/
 /.classpath
 /.project
-/Inputs_Test.txt
 /pom.xml
+/Inputs_Test.txt
 /src/Test/
 /Documentation/
+/build.fxbuild
