@@ -1,6 +1,6 @@
-# Bataille Navale - Projet Programmation Réseau
+# Bataille Navale
 
-#### Cette page fait office de description complète du projet. Elle doit permettre de comprendre tout du fonctionnement interne du projet.
+#### Cette page fait office de description complète du projet. Elle doit permettre de comprendre tout de son fonctionnement interne.
 
 ## Sommaire :
 
