@@ -30,13 +30,13 @@ A chaque placement de bateau effectué, le tableau du joueur est affiché, avec 
 
 ![Tableau du joueur](/doc_ressources/tableau_bateaux.png)
 
-Ensuite le jeu peut commencer : tour à tour, les joueurs entre des coordonnées pour les attaquer. Avant de choisir, il peut regarder son tableau d'attaques, c'est-à-dire les cases qu'il a déjà attaquées : 
+Ensuite le jeu peut commencer : tour à tour, les joueurs entrent des coordonnées pour les attaquer. Avant de choisir, il peut regarder son tableau d'attaques, c'est-à-dire les cases qu'il a déjà attaquées : 
 
 ![Tableau des attaques](/doc_ressources/tableau_attaques.png)
 
 Après avoir envoyé l'attaque, le joueur reçoit ensuite le résultat, et attend son prochain tour.
 
-La partie lorsqu'il y a un perdant, déterminé par le serveur. Le programme propose ensuite aux deux joueurs de recommencer une partie. Si les deux joueurs acceptent, la partie se réinitialise et une nouvelle partie est lançée. Sinon, les clients se déconnectent du salon.
+La partie se termine lorsqu'il y a un perdant, déterminé par le serveur. Le programme propose ensuite aux deux joueurs de recommencer une partie. Si les deux joueurs acceptent, la partie se réinitialise et une nouvelle partie est lançée. Sinon, les clients se déconnectent du salon.
   
   #### Note
   
